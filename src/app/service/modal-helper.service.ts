@@ -1,14 +1,17 @@
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable, Type, inject } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { ModalWithDynamicContentConfiguration } from '../common/Modal.def';
+import { IModalHelper, ModalWithDynamicContentConfiguration } from '../common/Modal.def';
 import { ModalWithDynamicContentComponent } from '../modal-with-dynamic-content/modal-with-dynamic-content.component';
+import { ModalWithDynamicContentService } from '../modal-with-dynamic-content/modal-with-dynamic-content.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ModalHelperService {
+export class ModalHelperService implements IModalHelper {
   private _modalService: NgbModal = inject(NgbModal);
+  private _modalWithDynamicContentService = inject(ModalWithDynamicContentService);
+
   private _document: any;
 
   constructor(@Inject(DOCUMENT) document: any) {
@@ -21,12 +24,8 @@ export class ModalHelperService {
     return modalRef;
   }
 
-  onLayerObjectClickEvent(config: ModalWithDynamicContentConfiguration): NgbModalRef | undefined {
-    let result: NgbModalRef | undefined = undefined;
-   
-    result = this.open(ModalWithDynamicContentComponent, config);
-      
-    return result;
+  onLayerObjectClickEvent(): NgbModalRef  {
+    return this.open(ModalWithDynamicContentComponent, this._modalWithDynamicContentService.modalConfiguration);
   }
 
 }

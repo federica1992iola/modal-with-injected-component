@@ -1,5 +1,7 @@
 import { Observable, Subject } from "rxjs";
 import { MODAL_ACTION } from "./Common";
+import { Type } from "@angular/core";
+import { NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 
 export type CTAModalConfiguration = {
     label: string,
@@ -42,12 +44,19 @@ export class ModalWithDynamicContentRef {
         this._result$.complete();
     }
 }
-export interface ModalWithDynamicContentConfiguration {
+export interface IModalHelper {
+    open<T>(modalComponent: Type<T>, customDialogConfig: ModalBaseConfiguration): NgbModalRef 
+
+}
+export interface ModalBaseConfiguration {
     title: string,
     backdropConfig: 'static',
     isClosableOnlyFromHeaderButton: boolean,
-    isDraggable: boolean,
     buttonsConfiguration: CTAModalConfiguration[],
+}
+export interface ModalWithDynamicContentConfiguration extends ModalBaseConfiguration {
+    areMoreThanOneTab: boolean,
+    isDraggable: boolean,
     items: ModalItemsConfiguration[]
 }
 export interface ModalItemsConfiguration {

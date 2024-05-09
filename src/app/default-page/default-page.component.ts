@@ -15,21 +15,13 @@ import { MODAL_ACTION } from '../common/Common';
 })
 export class DefaultPageComponent {
   private _modalHelperService: ModalHelperService = inject(ModalHelperService);
-  private _modalConfiguration: ModalWithDynamicContentConfiguration;
 
   constructor() {
-    this._modalConfiguration = {
-      title: 'Layer1_nomeOggetto',
-      backdropConfig: 'static',
-      isClosableOnlyFromHeaderButton: true,
-      isDraggable: true,
-      buttonsConfiguration: [],
-      items: []
-    };
+ 
   }
 
   openModalWithDynamicContent(): void {
-    const modalRef: NgbModalRef | undefined = this._modalHelperService.onLayerObjectClickEvent(this._modalConfiguration);
+    const modalRef: NgbModalRef | undefined = this._modalHelperService.onLayerObjectClickEvent();
 
     if (modalRef !== undefined) {
       modalRef.closed.subscribe({
