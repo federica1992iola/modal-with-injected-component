@@ -1,8 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ModuleEnum } from './common/Common';
 
-const routes: Routes = [];
-
+const routes: Routes = [
+  { path: "", redirectTo: ModuleEnum.DEFAULT_MODULE, pathMatch: "full" },
+  { path: ModuleEnum.DEFAULT_MODULE, 
+    loadComponent: () => import('../app/default-page/default-page.component').then((c) => c.DefaultPageComponent) 
+  }
+];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
