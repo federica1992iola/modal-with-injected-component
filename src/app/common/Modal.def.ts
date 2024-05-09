@@ -2,6 +2,7 @@ import { Observable, Subject } from "rxjs";
 import { MODAL_ACTION } from "./Common";
 import { Type } from "@angular/core";
 import { NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
+import { MatDialogRef } from "@angular/material/dialog";
 
 export type CTAModalConfiguration = {
     label: string,
@@ -45,8 +46,7 @@ export class ModalWithDynamicContentRef {
     }
 }
 export interface IModalHelper {
-    open<T>(modalComponent: Type<T>, customDialogConfig: ModalBaseConfiguration): NgbModalRef 
-
+    openModal<T>(modalComponent: Type<T>, customDialogConfig: ModalBaseConfiguration): MatDialogRef<T, any>
 }
 export interface ModalBaseConfiguration {
     title: string,

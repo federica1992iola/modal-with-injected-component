@@ -1,38 +1,47 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, Inject, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ModalWithDynamicContent, ModalWithDynamicContentConfiguration } from '../common/Modal.def';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { MODAL_ACTION } from '../common/Common';
-import {MatDialogModule} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { ModalWithDynamicContentService } from './modal-with-dynamic-content.service';
+import {MatIconModule} from '@angular/material/icon';
+import {MatListModule} from '@angular/material/list';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-modal-with-dynamic-content',
   standalone: true,
-  imports: [CommonModule, MatDialogModule, MatButtonModule],
+  imports: [CommonModule, 
+    MatDialogModule, 
+    MatButtonModule, 
+    MatIconModule, MatListModule, DragDropModule],
   templateUrl: './modal-with-dynamic-content.component.html',
   styleUrls: ['./modal-with-dynamic-content.component.scss']
 })
 export class ModalWithDynamicContentComponent extends ModalWithDynamicContent {
-  @Input() config: ModalWithDynamicContentConfiguration;
-  
-  public modalWithDynamicContentService = inject(ModalWithDynamicContentService);
-  public activeModal = inject(NgbActiveModal);
+  readonly config: ModalWithDynamicContentConfiguration;
 
-  constructor() {
+  public modalWithDynamicContentService = inject(ModalWithDynamicContentService);
+  
+
+  constructor( 
+    public dialogRef: MatDialogRef<ModalWithDynamicContentComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any) {
     super();
-    this.config = this.modalWithDynamicContentService.modalConfiguration;
+    console.log(dialogRef)
+    console.log(data)
+    this.config = data.config;
   }
 
   override close(action: MODAL_ACTION.CLOSE): void {
-     this.activeModal.close({ action: action })
+    this.dialogRef.close({ action: action })
   }
   override dismiss(action: MODAL_ACTION.DISMISS): void {
-    this.activeModal.dismiss({ action: action });
+    this.dialogRef.close({ action: action })
   }
   override save(action: MODAL_ACTION.SAVE): void {
-    this.activeModal.close({ action: action })
+    this.dialogRef.close({ action: action })
   }
 
 }

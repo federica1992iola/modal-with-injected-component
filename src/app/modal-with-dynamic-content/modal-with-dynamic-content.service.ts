@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable} from '@angular/core';
 import { ModalWithDynamicContentConfiguration } from '../common/Modal.def';
 
 @Injectable({
@@ -16,7 +16,7 @@ export class ModalWithDynamicContentService {
     this._defaultConfiguration = {
       title: 'Layer1_nomeOggetto',
       backdropConfig: 'static',
-      areMoreThanOneTab: true,
+      areMoreThanOneTab: false,
       isClosableOnlyFromHeaderButton: true,
       isDraggable: true,
       buttonsConfiguration: [],
@@ -28,4 +28,6 @@ export class ModalWithDynamicContentService {
   initialize(customConfiguration: ModalWithDynamicContentConfiguration): void {
     this._modalConfiguration = customConfiguration;
   }
+
+
 }
