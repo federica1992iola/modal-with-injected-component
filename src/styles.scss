@@ -1,1 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
+@import '../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import './color';
+
+// these next 2 imports shouldn't be imported elsewhere, so don't import this file anywhere else
+@include mat-core();
+@include angular-material-theme($candy-app-theme);
+
+// the rest of your global styles
