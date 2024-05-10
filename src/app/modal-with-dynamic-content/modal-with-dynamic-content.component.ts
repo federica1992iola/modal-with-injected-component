@@ -8,6 +8,9 @@ import { ModalWithDynamicContentService } from './modal-with-dynamic-content.ser
 import {MatIconModule} from '@angular/material/icon';
 import {MatListModule} from '@angular/material/list';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import { SummarySheetComponent } from '../summary-sheet/summary-sheet.component';
+import { MessageService } from '../service/message.service';
+import { MessageItem } from '../common/message';
 
 @Component({
   selector: 'app-modal-with-dynamic-content',
@@ -15,15 +18,17 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
   imports: [CommonModule, 
     MatDialogModule, 
     MatButtonModule, 
-    MatIconModule, MatListModule, DragDropModule],
+    MatIconModule, MatListModule, 
+    DragDropModule, 
+    SummarySheetComponent],
   templateUrl: './modal-with-dynamic-content.component.html',
   styleUrls: ['./modal-with-dynamic-content.component.scss']
 })
 export class ModalWithDynamicContentComponent extends ModalWithDynamicContent {
+  private _messageService: MessageService = inject(MessageService);
   readonly config: ModalWithDynamicContentConfiguration;
-
   public modalWithDynamicContentService = inject(ModalWithDynamicContentService);
-  
+  public messages: MessageItem[];
 
   constructor( 
     public dialogRef: MatDialogRef<ModalWithDynamicContentComponent>,
@@ -32,6 +37,7 @@ export class ModalWithDynamicContentComponent extends ModalWithDynamicContent {
     console.log(dialogRef)
     console.log(data)
     this.config = data.config;
+    this.messages = [];
   }
 
   override close(action: MODAL_ACTION.CLOSE): void {
@@ -42,6 +48,12 @@ export class ModalWithDynamicContentComponent extends ModalWithDynamicContent {
   }
   override save(action: MODAL_ACTION.SAVE): void {
     this.dialogRef.close({ action: action })
+  }
+
+  //solo quando l'utente preme sul tab scheda sintesi
+  onSummarySheetTabClick(): void {
+    //1 per scheda sintesi aitek, 2 per varchi ztl
+    this.messages = [...this._messageService.getMessages(2)];
   }
 
 }
