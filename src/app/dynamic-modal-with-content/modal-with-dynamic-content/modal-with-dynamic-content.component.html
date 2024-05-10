@@ -1,14 +1,13 @@
 
-<ng-container cdkDrag cdkDragRootElement=".cdk-overlay-pane">
+<ng-container *ngIf="config.isDraggable === true; else contentNotDraggable" 
+    cdkDrag cdkDragRootElement=".cdk-overlay-pane">
     <div cdkDragHandle class="dialog-container container-md d-flex p-3 flex-column">
         <div class="modal-header">
-            <h5 mat-dialog-title class="p-0 modal-title">Modal title</h5>
+            <h5 mat-dialog-title class="p-0 modal-title">{{ config.title }}</h5>
             <button class="p-0 " mat-icon-button matTooltip="chiudi" color="primary" aria-label="icona per chiudere la modale">
                 <mat-icon>close</mat-icon>
               </button>
         </div>
-
-  
         <div mat-dialog-content  class="modal-body">
             <div class="w-100 h-100" *ngIf="config.areMoreThanOneTab === false; else tabbedLayout">
                 <mat-list>
@@ -30,7 +29,7 @@
                 <mat-tab-group 
                     mat-stretch-tabs="false" mat-align-tabs="center" 
                     (selectedTabChange)="onSelectedTabChange($event)">
-                    <mat-tab id="personalData" [label]="tabsLabel.PERSONAL_DATA">
+                    <mat-tab id="personalData" [label]="allTabsLabel.PERSONAL_DATA">
                         <mat-list>
                             <mat-list-item class="ps-0 pe-0">
                               <span matListItemTitle>first Title</span>
@@ -46,18 +45,76 @@
                             </mat-list-item>
                           </mat-list>
                     </mat-tab>
-                    <mat-tab id="summarySheet" [label]="tabsLabel.SUMMARY_SHEET">
+                    <mat-tab id="summarySheet" [label]="allTabsLabel.SUMMARY_SHEET">
                         <div style="width: 200px; height: 150px;">
-                           <app-summary-sheet [messages]="messages"></app-summary-sheet> 
+                           <app-summary-sheet [dynamicModalItem]="dynamicModalItem"></app-summary-sheet> 
                         </div>
                     </mat-tab>
                   </mat-tab-group>
             </ng-template>
            
         </div>
-
         <div mat-dialog-actions class="mt-4 p-0">
           <button class="w-100 rounded-button"  mat-flat-button color="primary" mat-dialog-close>Close</button>
         </div>
     </div>
 </ng-container>
+<ng-template #contentNotDraggable>
+    <div class="dialog-container container-md d-flex p-3 flex-column">
+        <div class="modal-header">
+            <h5 mat-dialog-title class="p-0 modal-title">{{ config.title }}</h5>
+            <button class="p-0 " mat-icon-button matTooltip="chiudi" color="primary" aria-label="icona per chiudere la modale">
+                <mat-icon>close</mat-icon>
+              </button>
+        </div>
+        <div mat-dialog-content  class="modal-body">
+            <div class="w-100 h-100" *ngIf="config.areMoreThanOneTab === false; else tabbedLayout">
+                <mat-list>
+                    <mat-list-item class="ps-0 pe-0">
+                      <span matListItemTitle>first Title</span>
+                      <span matListItemLine>first line</span>
+                    </mat-list-item>
+                    <mat-list-item class="ps-0 pe-0">
+                        <span matListItemTitle>second Title</span>
+                        <span matListItemLine>second line</span>
+                    </mat-list-item>
+                    <mat-list-item class="ps-0 pe-0">
+                        <span matListItemTitle>third Title</span>
+                        <span matListItemLine>third line</span>
+                    </mat-list-item>
+                  </mat-list>
+            </div>
+            <ng-template #tabbedLayout class="w-100 h-100">
+                <mat-tab-group 
+                    mat-stretch-tabs="false" mat-align-tabs="center" 
+                    (selectedTabChange)="onSelectedTabChange($event)">
+                    <mat-tab id="personalData" [label]="allTabsLabel.PERSONAL_DATA">
+                        <mat-list>
+                            <mat-list-item class="ps-0 pe-0">
+                              <span matListItemTitle>first Title</span>
+                              <span matListItemLine>first line</span>
+                            </mat-list-item>
+                            <mat-list-item class="ps-0 pe-0">
+                                <span matListItemTitle>second Title</span>
+                                <span matListItemLine>second line</span>
+                            </mat-list-item>
+                            <mat-list-item class="ps-0 pe-0">
+                                <span matListItemTitle>third Title</span>
+                                <span matListItemLine>third line</span>
+                            </mat-list-item>
+                          </mat-list>
+                    </mat-tab>
+                    <mat-tab id="summarySheet" [label]="allTabsLabel.SUMMARY_SHEET">
+                        <div style="width: 200px; height: 150px;">
+                           <app-summary-sheet [dynamicModalItem]="dynamicModalItem"></app-summary-sheet> 
+                        </div>
+                    </mat-tab>
+                  </mat-tab-group>
+            </ng-template>
+           
+        </div>
+        <div mat-dialog-actions class="mt-4 p-0">
+          <button class="w-100 rounded-button"  mat-flat-button color="primary" mat-dialog-close>Close</button>
+        </div>
+    </div>
+</ng-template>

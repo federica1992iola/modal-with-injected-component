@@ -1,11 +1,11 @@
-import { DynamicModalContentType, DynamicModalItem } from "src/app/directive/dynamic.def";
+import { DEFAULT_DYNAMIC_MODAL_ITEM, DYNAMIC_MODAL_CONTENT_TYPE, DynamicModalContentType, DynamicModalItem } from "src/app/directive/dynamic.def";
 
 export class MessageService {
-  private _messages: DynamicModalItem[];
-  private _departmentMapping: Map<number, DynamicModalContentType[]> = new Map<number, DynamicModalContentType[]>();  
+  private _dynamicModalItem: DynamicModalItem[];
+  private _dynamicModalItemsMapping: Map<DYNAMIC_MODAL_CONTENT_TYPE, DynamicModalContentType>;
   
   constructor() {
-    this._messages = [  
+    this._dynamicModalItem = [  
       {  
         type: 'SmartParkingSummarySheet',
         data: {  
@@ -21,12 +21,15 @@ export class MessageService {
         }
       }
     ];
-    this._departmentMapping.set(1, ['SmartParkingSummarySheet']);  
-    this._departmentMapping.set(2, ['AccessPointSummarySheet']);  
+    this._dynamicModalItemsMapping = new Map<DYNAMIC_MODAL_CONTENT_TYPE, DynamicModalContentType>();
+    this._dynamicModalItemsMapping.set(DYNAMIC_MODAL_CONTENT_TYPE.SMART_PARKING_SUMMARY_SHEET, 'SmartParkingSummarySheet');  
+    this._dynamicModalItemsMapping.set(DYNAMIC_MODAL_CONTENT_TYPE.ACCESS_POINT_SUMMARY_SHEET, 'AccessPointSummarySheet');  
    }
 
-   public getMessages(department: number): DynamicModalItem[] {  
-    const DynamicModalContentTypes = this._departmentMapping.get(department) ?? [];  
-    return this._messages.filter(m => DynamicModalContentTypes.includes(m.type));  
+   public getDynamicModalItemByType(type: DYNAMIC_MODAL_CONTENT_TYPE): DynamicModalItem {  
+    const values =  this._dynamicModalItemsMapping.get(type) ?? 'AccessPointSummarySheet';  
+    const result = this._dynamicModalItem.filter(dmi => values == dmi.type);
+    
+    return result.length > 0 ? result[0] : DEFAULT_DYNAMIC_MODAL_ITEM;  
   }
 }

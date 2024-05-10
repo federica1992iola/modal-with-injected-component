@@ -17,25 +17,14 @@ import { AccessPointSummarySheetComponent } from '../access-point-summary-sheet/
   `,  
   styleUrls: ['./summary-sheet.component.scss']
 })
-export class SummarySheetComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {  
+export class SummarySheetComponent implements OnInit, OnChanges {  
   @ViewChild(DynamicDirective, {static: true}) private dynamicHost!: DynamicDirective;  
-  @Input() public messages: DynamicModalItem[];
-  
-  private interval: number| undefined;  
-  
-  constructor() {
-    this.messages = [];
-  }
+  @Input() public dynamicModalItem!: DynamicModalItem;
 
-  ngAfterViewInit(): void {
-    console.log(this.dynamicHost); 
-  }
 
   ngOnChanges(changes: SimpleChanges): void {
-
-    if(changes['messages'].currentValue !== changes['messages'].previousValue){
-      this.messages = changes['messages'].currentValue;
-      console.log(changes)
+    if(changes['dynamicModalItem'].currentValue !== changes['dynamicModalItem'].previousValue){
+      this.dynamicModalItem = changes['dynamicModalItem'].currentValue;
       this.loadComponent();  
     }
   }
@@ -44,20 +33,14 @@ export class SummarySheetComponent implements OnInit, OnChanges, AfterViewInit, 
     this.loadComponent();  
   }  
   
-  public ngOnDestroy(): void {  
-    clearInterval(this.interval);  
-  }  
-  
+
   private loadComponent(): void {  
-    if (this.messages.length > 0) {
-    //ne prendiamo sempre uno
-    const currentIndex: number = 0;  
-    const message = this.messages[currentIndex];  
+    if (this.dynamicModalItem !== undefined) {
   
     const viewContainerRef = this.dynamicHost.viewContainerRef;  
     viewContainerRef.clear();  
-    const componentRef = viewContainerRef.createComponent<DynamicComponent>(this.componentTypeFactory(message.type));  
-    componentRef.instance.data = message.data;
+    const componentRef = viewContainerRef.createComponent<DynamicComponent>(this.componentTypeFactory(this.dynamicModalItem.type));  
+    componentRef.instance.data = this.dynamicModalItem.data;
     }  
   }  
 
