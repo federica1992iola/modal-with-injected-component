@@ -1,8 +1,6 @@
 import { Component, Inject, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ModalWithDynamicContent, ModalWithDynamicContentConfiguration } from '../common/Modal.def';
-import { MODAL_ACTION } from '../common/Common';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { ModalWithDynamicContentService } from './modal-with-dynamic-content.service';
 import {MatIconModule} from '@angular/material/icon';
@@ -10,7 +8,10 @@ import {MatListModule} from '@angular/material/list';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { SummarySheetComponent } from '../summary-sheet/summary-sheet.component';
 import { MessageService } from '../service/message.service';
-import { MessageItem } from '../common/message';
+import { MessageItem } from '../common/Message';
+import { MODAL_ACTION, MODAL_WITH_DYNAMIC_CONTENT_TABS_LABEL } from 'src/app/dynamic-modal-with-content/common/Common';
+import { ModalWithDynamicContent, ModalWithDynamicContentConfiguration } from '../common/Modal.def';
+import {MatTabsModule} from '@angular/material/tabs';
 
 @Component({
   selector: 'app-modal-with-dynamic-content',
@@ -20,6 +21,7 @@ import { MessageItem } from '../common/message';
     MatButtonModule, 
     MatIconModule, MatListModule, 
     DragDropModule, 
+    MatTabsModule,
     SummarySheetComponent],
   templateUrl: './modal-with-dynamic-content.component.html',
   styleUrls: ['./modal-with-dynamic-content.component.scss']
@@ -27,6 +29,9 @@ import { MessageItem } from '../common/message';
 export class ModalWithDynamicContentComponent extends ModalWithDynamicContent {
   private _messageService: MessageService = inject(MessageService);
   readonly config: ModalWithDynamicContentConfiguration;
+
+  tabsLabel: typeof MODAL_WITH_DYNAMIC_CONTENT_TABS_LABEL = MODAL_WITH_DYNAMIC_CONTENT_TABS_LABEL;
+
   public modalWithDynamicContentService = inject(ModalWithDynamicContentService);
   public messages: MessageItem[];
 
@@ -50,10 +55,24 @@ export class ModalWithDynamicContentComponent extends ModalWithDynamicContent {
     this.dialogRef.close({ action: action })
   }
 
+  onSelectedTabChange(event: any): void {
+    switch(event.tab.textLabel){
+      case this.tabsLabel.PERSONAL_DATA:
+        //qua riempiamo la struttura dinamica per fare vedere la lista di informazioni anagrafiche
+        break;
+      case this.tabsLabel.SUMMARY_SHEET:
+        this.onSummarySheetTabClick(2);
+        break;
+      default:
+        break;
+    }
+  }
+
   //solo quando l'utente preme sul tab scheda sintesi
-  onSummarySheetTabClick(): void {
+  onSummarySheetTabClick(summarySheetType: number): void {
+    //il valore summarySheetType deve essere scelto tra 1 e 2
     //1 per scheda sintesi aitek, 2 per varchi ztl
-    this.messages = [...this._messageService.getMessages(2)];
+    this.messages = [...this._messageService.getMessages(summarySheetType)];
   }
 
 }

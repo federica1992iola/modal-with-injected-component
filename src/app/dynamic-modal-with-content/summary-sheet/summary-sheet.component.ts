@@ -1,22 +1,36 @@
-import { Component, Input, OnDestroy, OnInit, Type, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, Type, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DynamicDirective } from '../directive/dynamic.directive';
-import { DynamicComponent } from '../directive/dynamic.def';
+import { DynamicDirective } from '../../directive/dynamic.directive';
+import { DynamicComponent } from '../../directive/dynamic.def';
 import { SmartParkingSummarySheetComponent } from '../smart-parking-summary-sheet/smart-parking-summary-sheet';
 import { AccessPointSummarySheetComponent } from '../access-point-summary-sheet/access-point-summary-sheet';
-import { MessageItem, MessageType } from '../common/message';
+import { MessageItem, MessageType } from '../common/Message';
+
+// @Component({
+//   selector: 'app-son',
+//   standalone: true,
+//   template: `
+//     <div appSonDirective>
+//       <p> son <p>
+//     </div>
+//   `,
+// })
+// export class AppSonComponent {
+//   @ViewChild(AppSonDirective,{static: true}) childRef : AppSonDirective;
+//   constructor() {}
+// }
 
 @Component({
   selector: 'app-summary-sheet',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, DynamicDirective],
   template: `  
     <h3 class="mat-headline">Relax, you got this</h3>
     <ng-template appDynamic></ng-template>
   `,  
   styleUrls: ['./summary-sheet.component.scss']
 })
-export class SummarySheetComponent implements OnInit, OnDestroy {  
+export class SummarySheetComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {  
   @ViewChild(DynamicDirective, {static: true}) private dynamicHost!: DynamicDirective;  
   @Input() public messages: MessageItem[];
   
@@ -25,10 +39,22 @@ export class SummarySheetComponent implements OnInit, OnDestroy {
   constructor() {
     this.messages = [];
   }
+
+  ngAfterViewInit(): void {
+    console.log(this.dynamicHost); 
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+
+    if(changes['messages'].currentValue !== changes['messages'].previousValue){
+      this.messages = changes['messages'].currentValue;
+      console.log(changes)
+      this.loadComponent();  
+    }
+  }
   
   public ngOnInit(): void {  
     this.loadComponent();  
-    this.rotateMessages();  
   }  
   
   public ngOnDestroy(): void {  
@@ -47,12 +73,6 @@ export class SummarySheetComponent implements OnInit, OnDestroy {
     componentRef.instance.data = message.data;
     }  
   }  
-  
-  private rotateMessages(): void {  
-    this.interval = window.setInterval(() => {  
-      this.loadComponent();  
-    }, 6000);  
-  }
 
   private componentTypeFactory(type: MessageType): Type<DynamicComponent> {  
     let comp: Type<DynamicComponent> = AccessPointSummarySheetComponent;  

@@ -1,11 +1,11 @@
 import { Component, Type, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { ModalWithDynamicContentService } from '../modal-with-dynamic-content/modal-with-dynamic-content.service';
-import { IModalHelper, ModalWithDynamicContentConfiguration } from '../common/Modal.def';
-import { ModalWithDynamicContentComponent } from '../modal-with-dynamic-content/modal-with-dynamic-content.component';
+import { IModalHelper, ModalWithDynamicContentConfiguration } from '../dynamic-modal-with-content/common/Modal.def';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { MODAL_ACTION } from '../common/Common';
+import { MODAL_ACTION } from '../dynamic-modal-with-content/common/Common';
+import { ModalWithDynamicContentService } from '../dynamic-modal-with-content/modal-with-dynamic-content/modal-with-dynamic-content.service';
+import { ModalWithDynamicContentComponent } from '../dynamic-modal-with-content/modal-with-dynamic-content/modal-with-dynamic-content.component';
 
 @Component({
   selector: 'app-default-page',

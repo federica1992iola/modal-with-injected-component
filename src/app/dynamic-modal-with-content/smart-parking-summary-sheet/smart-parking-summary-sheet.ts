@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DynamicComponent } from '../directive/dynamic.def';
-import { MessageData } from '../common/message';
+import { DynamicComponent } from '../../directive/dynamic.def';
+import { MessageData } from '../common/Message';
 import { MatCardModule } from '@angular/material/card';
 
 @Component({

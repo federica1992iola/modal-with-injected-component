@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ModuleEnum } from './common/Common';
+import { ModuleEnum } from './dynamic-modal-with-content/common/Common';
 
 const routes: Routes = [
   { path: "", redirectTo: ModuleEnum.DEFAULT_MODULE, pathMatch: "full" },

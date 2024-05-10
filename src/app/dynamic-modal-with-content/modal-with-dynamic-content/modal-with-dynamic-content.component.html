@@ -27,7 +27,31 @@
                   </mat-list>
             </div>
             <ng-template #tabbedLayout class="w-100 h-100">
-                <app-summary-sheet [messages]="messages"></app-summary-sheet>
+                <mat-tab-group 
+                    mat-stretch-tabs="false" mat-align-tabs="center" 
+                    (selectedTabChange)="onSelectedTabChange($event)">
+                    <mat-tab id="personalData" [label]="tabsLabel.PERSONAL_DATA">
+                        <mat-list>
+                            <mat-list-item class="ps-0 pe-0">
+                              <span matListItemTitle>first Title</span>
+                              <span matListItemLine>first line</span>
+                            </mat-list-item>
+                            <mat-list-item class="ps-0 pe-0">
+                                <span matListItemTitle>second Title</span>
+                                <span matListItemLine>second line</span>
+                            </mat-list-item>
+                            <mat-list-item class="ps-0 pe-0">
+                                <span matListItemTitle>third Title</span>
+                                <span matListItemLine>third line</span>
+                            </mat-list-item>
+                          </mat-list>
+                    </mat-tab>
+                    <mat-tab id="summarySheet" [label]="tabsLabel.SUMMARY_SHEET">
+                        <div style="width: 200px; height: 150px;">
+                           <app-summary-sheet [messages]="messages"></app-summary-sheet> 
+                        </div>
+                    </mat-tab>
+                  </mat-tab-group>
             </ng-template>
            
         </div>

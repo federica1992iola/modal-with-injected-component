@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
-import { MessageItem, MessageType } from '../common/message';
+import { MessageItem, MessageType } from '../common/Message';
 
-@Injectable({
-  providedIn: 'root'
-})
 export class MessageService {
   private _messages: MessageItem[];
   private _departmentMapping: Map<number, MessageType[]> = new Map<number, MessageType[]>();  
