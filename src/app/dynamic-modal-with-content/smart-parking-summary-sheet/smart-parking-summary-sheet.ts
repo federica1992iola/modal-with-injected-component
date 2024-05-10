@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DynamicComponent } from '../../directive/dynamic.def';
-import { MessageData } from '../common/Message';
+import { DynamicComponent, DynamicModalData } from '../../directive/dynamic.def';
 import { MatCardModule } from '@angular/material/card';
 
 @Component({
@@ -20,7 +19,7 @@ import { MatCardModule } from '@angular/material/card';
   styles: [` .card { max-width: 300px; } `]  
 })
 export class SmartParkingSummarySheetComponent implements DynamicComponent {
-  @Input() data: MessageData;  
+  @Input() data: DynamicModalData;  
 
   constructor() {
     this.data = {

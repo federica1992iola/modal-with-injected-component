@@ -1,24 +1,11 @@
 import { AfterViewInit, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, Type, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DynamicDirective } from '../../directive/dynamic.directive';
-import { DynamicComponent } from '../../directive/dynamic.def';
+import { DynamicComponent, DynamicModalContentType, DynamicModalItem } from '../../directive/dynamic.def';
 import { SmartParkingSummarySheetComponent } from '../smart-parking-summary-sheet/smart-parking-summary-sheet';
 import { AccessPointSummarySheetComponent } from '../access-point-summary-sheet/access-point-summary-sheet';
-import { MessageItem, MessageType } from '../common/Message';
 
-// @Component({
-//   selector: 'app-son',
-//   standalone: true,
-//   template: `
-//     <div appSonDirective>
-//       <p> son <p>
-//     </div>
-//   `,
-// })
-// export class AppSonComponent {
-//   @ViewChild(AppSonDirective,{static: true}) childRef : AppSonDirective;
-//   constructor() {}
-// }
+
 
 @Component({
   selector: 'app-summary-sheet',
@@ -32,7 +19,7 @@ import { MessageItem, MessageType } from '../common/Message';
 })
 export class SummarySheetComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {  
   @ViewChild(DynamicDirective, {static: true}) private dynamicHost!: DynamicDirective;  
-  @Input() public messages: MessageItem[];
+  @Input() public messages: DynamicModalItem[];
   
   private interval: number| undefined;  
   
@@ -74,7 +61,7 @@ export class SummarySheetComponent implements OnInit, OnChanges, AfterViewInit, 
     }  
   }  
 
-  private componentTypeFactory(type: MessageType): Type<DynamicComponent> {  
+  private componentTypeFactory(type: DynamicModalContentType): Type<DynamicComponent> {  
     let comp: Type<DynamicComponent> = AccessPointSummarySheetComponent;  
     
     if (type == 'SmartParkingSummarySheet') {  

@@ -1,8 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DynamicComponent } from '../../directive/dynamic.def';
+import { DynamicComponent, DynamicModalData } from '../../directive/dynamic.def';
 import { MatCardModule } from '@angular/material/card';
-import { MessageData } from '../common/Message';
 
 @Component({
   selector: 'app-access-point-summary-sheet',
@@ -20,7 +19,7 @@ import { MessageData } from '../common/Message';
 styles: [` .card { max-width: 300px; } `]  
 })
 export class AccessPointSummarySheetComponent implements DynamicComponent, OnInit {
-  @Input() data: MessageData;  
+  @Input() data: DynamicModalData;  
 
   constructor() {
     this.data = {

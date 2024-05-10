@@ -1,9 +1,8 @@
-import { Injectable } from '@angular/core';
-import { MessageItem, MessageType } from '../common/Message';
+import { DynamicModalContentType, DynamicModalItem } from "src/app/directive/dynamic.def";
 
 export class MessageService {
-  private _messages: MessageItem[];
-  private _departmentMapping: Map<number, MessageType[]> = new Map<number, MessageType[]>();  
+  private _messages: DynamicModalItem[];
+  private _departmentMapping: Map<number, DynamicModalContentType[]> = new Map<number, DynamicModalContentType[]>();  
   
   constructor() {
     this._messages = [  
@@ -26,8 +25,8 @@ export class MessageService {
     this._departmentMapping.set(2, ['AccessPointSummarySheet']);  
    }
 
-   public getMessages(department: number): MessageItem[] {  
-    const messageTypes = this._departmentMapping.get(department) ?? [];  
-    return this._messages.filter(m => messageTypes.includes(m.type));  
+   public getMessages(department: number): DynamicModalItem[] {  
+    const DynamicModalContentTypes = this._departmentMapping.get(department) ?? [];  
+    return this._messages.filter(m => DynamicModalContentTypes.includes(m.type));  
   }
 }

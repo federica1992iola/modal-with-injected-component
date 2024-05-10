@@ -1,4 +1,4 @@
-import { Component, Inject, Input, inject } from '@angular/core';
+import { Component, Inject, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
@@ -8,10 +8,10 @@ import {MatListModule} from '@angular/material/list';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { SummarySheetComponent } from '../summary-sheet/summary-sheet.component';
 import { MessageService } from '../service/message.service';
-import { MessageItem } from '../common/Message';
 import { MODAL_ACTION, MODAL_WITH_DYNAMIC_CONTENT_TABS_LABEL } from 'src/app/dynamic-modal-with-content/common/Common';
 import { ModalWithDynamicContent, ModalWithDynamicContentConfiguration } from '../common/Modal.def';
 import {MatTabsModule} from '@angular/material/tabs';
+import { DynamicModalItem } from 'src/app/directive/dynamic.def';
 
 @Component({
   selector: 'app-modal-with-dynamic-content',
@@ -33,7 +33,7 @@ export class ModalWithDynamicContentComponent extends ModalWithDynamicContent {
   tabsLabel: typeof MODAL_WITH_DYNAMIC_CONTENT_TABS_LABEL = MODAL_WITH_DYNAMIC_CONTENT_TABS_LABEL;
 
   public modalWithDynamicContentService = inject(ModalWithDynamicContentService);
-  public messages: MessageItem[];
+  public messages: DynamicModalItem[];
 
   constructor( 
     public dialogRef: MatDialogRef<ModalWithDynamicContentComponent>,
